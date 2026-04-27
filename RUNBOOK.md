@@ -138,13 +138,13 @@ docker-compose logs -t
 ### Database Operations
 ```bash
 # Connect to MySQL
-docker-compose exec db mysql -u appuser -pappdb appdb
+docker-compose exec db mysql -u appuser -papppassword appdb
 
 # Backup database
-docker-compose exec db mysqldump -u appuser -pappdb appdb > backup.sql
+docker-compose exec db mysqldump -u appuser -papppassword appdb > backup.sql
 
 # Restore database
-cat backup.sql | docker-compose exec -T db mysql -u appuser -pappdb appdb
+cat backup.sql | docker-compose exec -T db mysql -u appuser -papppassword appdb
 
 # Reset database
 docker-compose down -v
@@ -294,7 +294,7 @@ DATE=$(date +%Y%m%d_%H%M%S)
 mkdir -p $BACKUP_DIR
 
 # Backup database
-docker-compose exec -T db mysqldump -u appuser -pappdb appdb > $BACKUP_DIR/db_$DATE.sql
+docker-compose exec -T db mysqldump -u appuser -papppassword appdb > $BACKUP_DIR/db_$DATE.sql
 
 # Backup configuration
 cp docker-compose.yml $BACKUP_DIR/
@@ -318,7 +318,7 @@ docker-compose down
 # 2. Restore database
 docker-compose up -d db
 sleep 30
-cat backup.sql | docker-compose exec -T db mysql -u appuser -pappdb appdb
+cat backup.sql | docker-compose exec -T db mysql -u appuser -papppassword appdb
 
 # 3. Restore configuration
 cp backup/docker-compose.yml .
@@ -542,7 +542,7 @@ docker network inspect app-net
 
 # Interactive debugging
 docker-compose exec app sh
-docker-compose exec db mysql -u appuser -pappdb
+docker-compose exec db mysql -u appuser -papppassword
 
 # Performance profiling
 docker stats $(docker-compose ps -q)
@@ -550,7 +550,7 @@ docker stats $(docker-compose ps -q)
 
 ---
 
-**Last Updated**: $(date)
+**Last Updated**: Mon Apr 27 08:40:56 PM BST 2026
 **Version**: 1.0
 **Maintainer**: DevOps Team
 EOF
