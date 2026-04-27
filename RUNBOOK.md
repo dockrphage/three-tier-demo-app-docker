@@ -3,7 +3,6 @@
 ## RUNBOOK.md (Operational Guide)
 
 ```bash
-cat > RUNBOOK.md << 'EOF'
 # Operations Runbook for Three-Tier Demo App
 
 ## Table of Contents
