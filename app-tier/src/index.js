@@ -45,5 +45,30 @@ app.post('/api/transactions', async (req, res) => {
   }
 });
 
+// DELETE a transaction
+app.delete('/api/transactions/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const [result] = await pool.query(
+      'DELETE FROM transactions WHERE id = ?',
+      [id]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'Transaction not found' });
+    }
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error('Error deleting transaction:', err);
+    res.status(500).json({ error: 'Failed to delete transaction' });
+  }
+});
+
+
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`App-tier running on ${port}`));
+app.listen(port, "0.0.0.0", () => {
+  console.log(`App-tier running on ${port}`);
+});
+
