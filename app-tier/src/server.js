@@ -4,12 +4,17 @@ const mysql = require("mysql2/promise");
 const app = express();
 const PORT = 3000;
 
+app.use(express.json());
+
 const dbConfig = {
   host: process.env.DB_HOST || "db",
   user: process.env.DB_USER || "appuser",
   password: process.env.DB_PASSWORD || "apppassword",
   database: process.env.DB_NAME || "appdb"
 };
+
+const pool = mysql.createPool(dbConfig);
+
 
 app.get("/api/message", async (req, res) => {
   try {
@@ -21,6 +26,8 @@ app.get("/api/message", async (req, res) => {
     res.json({ message: "Database connection failed" });
   }
 });
+
+
 
 app.listen(PORT, () => {
   console.log(`API running on port ${PORT}`);
